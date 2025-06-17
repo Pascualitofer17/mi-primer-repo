@@ -58,7 +58,7 @@
 <body>
     <div class="container">
         <h1>Sitio en Construcción</h1>
-        <h2>¡Probando GitGutter!</h2>  <p>Estamos preparando algo increíble para ti que estas viendo.</p>
+        <h2>¡Probando Terminus!</h2>  <p>Estamos preparando algo increíble para ti que estas viendo.</p>
         <div class="spinner"></div>
     </div>
 </body>
