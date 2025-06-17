@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con IA de Google</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+        #chat-history {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid #eee;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .ai-message {
+            background-color: #e9e9eb;
+            color: black;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        #input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        input[type="text"], input[type="password"] {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        button {
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat-container">
+        <div id="chat-history">
+            <div class="message ai-message">Hola, soy Gemini. Pega tu API Key de Google y envíame un mensaje para comenzar.</div>
+        </div>
+        <div id="input-area">
+            <input type="password" id="api-key-input" placeholder="AIzaSyDsZHQc0B3k2ahOQd0nctPM7SzPvYzl2K4">
+            <input type="text" id="message-input" placeholder="Escribe tu mensaje...">
+            <button id="send-button">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN ---
+        // Modelo de IA de Google que usaremos. 'flash' es rápido y bueno para chat.
+        const MODEL_NAME = "gemini-1.5-flash-latest";
+        
+        // --- Elementos del DOM ---
+        const chatHistory = document.getElementById('chat-history');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const apiKeyInput = document.getElementById('api-key-input');
+
+        // --- LÓGICA PRINCIPAL ---
+        
+        // Función para enviar el mensaje a la IA
+        async function sendMessage() {
+            const apiKey = apiKeyInput.value.trim();
+            const userMessage = messageInput.value.trim();
+
+            if (!apiKey) {
+                alert("Por favor, introduce tu API Key de Google.");
+                return;
+            }
+            if (!userMessage) {
+                return; // No enviar mensajes vacíos
+            }
+
+            // 1. Mostrar el mensaje del usuario en el chat
+            displayMessage(userMessage, 'user');
+            messageInput.value = ''; // Limpiar el campo de entrada
+
+            try {
+                // 2. Construir la URL y el cuerpo de la petición
+                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
+                
+                const requestBody = {
+                    "contents": [{
+                        "parts": [{
+                            "text": userMessage
+                        }]
+                    }]
+                };
+
+                // 3. Enviar la petición a la API de Google
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error de red o de API: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // 4. Extraer y mostrar la respuesta de la IA
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                displayMessage(aiResponse, 'ai');
+
+            } catch (error) {
+                console.error("Error al contactar la API de Gemini:", error);
+                displayMessage("Lo siento, hubo un error al procesar tu solicitud. Revisa tu API Key y la consola para más detalles.", 'ai');
+            }
+        }
+
+        // Función para añadir mensajes a la ventana del chat
+        function displayMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', `${sender}-message`);
+            messageElement.textContent = message;
+            chatHistory.appendChild(messageElement);
+            // Hacer scroll hacia el último mensaje
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // --- Event Listeners ---
+        
+        // Al hacer clic en el botón "Enviar"
+        sendButton.addEventListener('click', sendMessage);
+
+        // Al presionar "Enter" en el campo de texto
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+</html>
