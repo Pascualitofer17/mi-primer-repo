@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Web en Construcción</title>
-    <h2>¡Probando GitGutter!</h2>  <p>Estamos preparando algo increíble para ti que estas viendo.</p>
+    
 
     <meta http-equiv="refresh" content="7; url=https://pascualitofer.com">
 
@@ -58,8 +58,7 @@
 <body>
     <div class="container">
         <h1>Sitio en Construcción</h1>
-        <p>Estamos preparando algo increíble para ti.</p>
-        <p>En unos segundos serás redirigido a nuestro sitio principal.</p>
+        <h2>¡Probando GitGutter!</h2>  <p>Estamos preparando algo increíble para ti que estas viendo.</p>
         <div class="spinner"></div>
     </div>
 </body>
