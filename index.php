@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página en Construcción</title>
+    <title>Página Web en Construcción</title>
+    <h2>¡Probando GitGutter!</h2>  <p>Estamos preparando algo increíble para ti que estas viendo.</p>
 
     <meta http-equiv="refresh" content="7; url=https://pascualitofer.com">
 
