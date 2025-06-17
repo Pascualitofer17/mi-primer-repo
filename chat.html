@@ -3,180 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat con IA de Google</title>
+    <title>Asistente Virtual - PASCUALITOFER</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-        #chat-container {
-            width: 100%;
-            max-width: 600px;
-            border: 1px solid #ccc;
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            height: 80vh;
-        }
-        #chat-history {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-            border-bottom: 1px solid #eee;
-        }
-        .message {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 18px;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-        .user-message {
-            background-color: #007bff;
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-        }
-        .ai-message {
-            background-color: #e9e9eb;
-            color: black;
-            align-self: flex-start;
-            margin-right: auto;
-        }
-        #input-area {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-        }
-        input[type="text"], input[type="password"] {
-            flex-grow: 1;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 20px;
-            margin-right: 10px;
-        }
-        button {
-            border: none;
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        #app-container { display: flex; gap: 20px; width: 100%; max-width: 1400px; }
+        .column { display: flex; flex-direction: column; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        #context-container { flex: 2; padding: 15px; } /* Más pequeño */
+        #chat-container { flex: 3; height: 85vh; } /* Más grande */
+        h3 { margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        textarea { width: 98%; height: 90%; resize: none; border: 1px solid #ccc; border-radius: 4px; padding: 10px; font-size: 14px; background-color: #fafafa; }
+        #chat-history { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .message { margin-bottom: 15px; padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; }
+        .user-message { background-color: #007bff; color: white; align-self: flex-end; margin-left: auto; }
+        .ai-message { background-color: #e9e9eb; color: black; align-self: flex-start; margin-right: auto; }
+        #input-area { display: flex; padding: 10px; border-top: 1px solid #ccc; }
+        input { flex-grow: 1; border: 1px solid #ccc; padding: 10px; border-radius: 20px; margin: 0 5px; }
+        button { border: none; background-color: #007bff; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="chat-container">
-        <div id="chat-history">
-            <div class="message ai-message">Hola, soy Gemini. Pega tu API Key de Google y envíame un mensaje para comenzar.</div>
+    <div id="app-container">
+        <div id="context-container" class="column">
+            <h3>Contexto del Negocio</h3>
+            <textarea id="business-context" readonly>
+**Nombre del Negocio:**
+PASCUALITOFER
+
+**Sobre Pascual Fernandez Guaygua (El Fundador):**
+Mi nombre es Pascual Fernandez Guaygua. Inspirar y guiar en el aprendizaje, fomentando el crecimiento académico, social y personal de las personas, es algo que me llena de satisfacción. Me esfuerzo por proporcionar un entorno educativo enriquecedor y estimulante, donde todos puedan desarrollar habilidades críticas y creativas. Busco impactar positivamente en la vida de mis estudiantes, preparándolos para enfrentar los desafíos del mundo actual y contribuir al desarrollo de una sociedad más equitativa y justa.
+
+**Lista de Servicios:**
+
+1.  **Técnico en celulares:**
+    - Flasheo, reseteo y actualización de celulares.
+    - Reparación general de celulares y software.
+
+2.  **Mantenimiento de Computadoras:**
+    - Mantenimiento preventivo, correctivo y predictivo.
+
+3.  **Fotografía y Filmaciones para eventos:**
+    - Cumpleaños, Matrimonios, 15 años y Recepciones Sociales.
+    - Ofrezco servicio de Transmisión en vivo.
+
+4.  **Redes e Instalación de Cámaras:**
+    - Cableado estructurado para PCs.
+    - Enlaces punto a punto con tecnología Microtik y Ubiquiti.
+    - Instalación de Antenas Tupak Katari.
+    - Seguridad informática y cámaras de vigilancia de 1, 2, y 4 megapíxeles.
+
+**Productos en Venta:**
+
+1.  **Accesorios para Celulares:**
+    - Cargadores, audífonos, parlantes.
+    - Vidrios templados.
+    - OTGs tipo C y tipo V8.
+    - Memorias y Flash de 8GB, 16GB, 32GB y 64GB.
+
+2.  **Películas y Música:**
+    - Venta de películas en DVD y CD de todos los géneros.
+    - Venta de música en todos los géneros.
+
+**Información de Contacto y Ubicación:**
+- **Ubicación:** El puesto de venta y reparación se encuentra en La Paz, Provincia Camacho, Municipio de Escoma.
+- **Teléfono / WhatsApp:** 67164564
+- **Email:** admin@pascualitofer.pro
+            </textarea>
         </div>
-        <div id="input-area">
-            <input type="password" id="api-key-input" placeholder="AIzaSyDsZHQc0B3k2ahOQd0nctPM7SzPvYzl2K4">
-            <input type="text" id="message-input" placeholder="Escribe tu mensaje...">
-            <button id="send-button">Enviar</button>
+
+        <div id="chat-container" class="column">
+            <div id="chat-history">
+                <div class="message ai-message">Hola, soy el asistente virtual de PASCUALITOFER. ¿En qué puedo ayudarte hoy?</div>
+            </div>
+            <div id="input-area">
+                <input type="password" id="api-key-input" placeholder="Pega tu API Key de Google aquí">
+                <input type="text" id="message-input" placeholder="Escribe tu pregunta...">
+                <button id="send-button">Enviar</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN ---
-        // Modelo de IA de Google que usaremos. 'flash' es rápido y bueno para chat.
         const MODEL_NAME = "gemini-1.5-flash-latest";
-        
-        // --- Elementos del DOM ---
         const chatHistory = document.getElementById('chat-history');
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-button');
         const apiKeyInput = document.getElementById('api-key-input');
+        const businessContextInput = document.getElementById('business-context');
 
-        // --- LÓGICA PRINCIPAL ---
-        
-        // Función para enviar el mensaje a la IA
         async function sendMessage() {
             const apiKey = apiKeyInput.value.trim();
-            const userMessage = messageInput.value.trim();
+            const userQuestion = messageInput.value.trim();
+            
+            // El contexto ahora se lee directamente del textarea pre-cargado.
+            const businessContext = businessContextInput.value.trim();
 
-            if (!apiKey) {
-                alert("Por favor, introduce tu API Key de Google.");
+            if (!apiKey || !userQuestion) {
+                alert("Por favor, asegúrate de haber pegado tu API Key y haber escrito una pregunta.");
                 return;
             }
-            if (!userMessage) {
-                return; // No enviar mensajes vacíos
-            }
 
-            // 1. Mostrar el mensaje del usuario en el chat
-            displayMessage(userMessage, 'user');
-            messageInput.value = ''; // Limpiar el campo de entrada
+            displayMessage(userQuestion, 'user');
+            messageInput.value = '';
+
+            const fullPrompt = `
+                Eres un asistente virtual experto para el negocio "PASCUALITOFER".
+                Responde la pregunta del cliente basándote estrictamente en la siguiente información de contexto.
+                Sé amable, profesional y directo. Si la respuesta no se encuentra en el contexto,
+                amablemente di "No tengo información sobre eso, pero puedo ayudarte con otros temas como nuestros servicios o productos."
+
+                --- CONTEXTO DEL NEGOCIO ---
+                ${businessContext}
+                ---
+
+                PREGUNTA DEL CLIENTE:
+                ${userQuestion}
+            `;
 
             try {
-                // 2. Construir la URL y el cuerpo de la petición
                 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
-                
-                const requestBody = {
-                    "contents": [{
-                        "parts": [{
-                            "text": userMessage
-                        }]
-                    }]
-                };
+                const requestBody = { "contents": [{ "parts": [{ "text": fullPrompt }] }] };
 
-                // 3. Enviar la petición a la API de Google
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
                 });
 
-                if (!response.ok) {
-                    throw new Error(`Error de red o de API: ${response.statusText}`);
-                }
+                if (!response.ok) throw new Error(`Error de API: ${response.statusText}`);
 
                 const data = await response.json();
-
-                // 4. Extraer y mostrar la respuesta de la IA
                 const aiResponse = data.candidates[0].content.parts[0].text;
                 displayMessage(aiResponse, 'ai');
 
             } catch (error) {
-                console.error("Error al contactar la API de Gemini:", error);
-                displayMessage("Lo siento, hubo un error al procesar tu solicitud. Revisa tu API Key y la consola para más detalles.", 'ai');
+                console.error("Error:", error);
+                displayMessage("Lo siento, hubo un error al procesar tu solicitud. Verifica que tu API Key sea correcta y que tengas conexión a internet.", 'ai');
             }
         }
 
-        // Función para añadir mensajes a la ventana del chat
         function displayMessage(message, sender) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', `${sender}-message`);
             messageElement.textContent = message;
             chatHistory.appendChild(messageElement);
-            // Hacer scroll hacia el último mensaje
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
 
-        // --- Event Listeners ---
-        
-        // Al hacer clic en el botón "Enviar"
         sendButton.addEventListener('click', sendMessage);
-
-        // Al presionar "Enter" en el campo de texto
-        messageInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
+        messageInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
     </script>
-
 </body>
 </html>
