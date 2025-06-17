@@ -5,28 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asistente Virtual - PASCUALITOFER</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; padding: 20px; margin: 0; }
-        #app-container { display: flex; gap: 20px; width: 100%; max-width: 1400px; }
-        .column { display: flex; flex-direction: column; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        #context-container { flex: 2; padding: 15px; } /* Más pequeño */
-        #chat-container { flex: 3; height: 85vh; } /* Más grande */
-        h3 { margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        textarea { width: 98%; height: 90%; resize: none; border: 1px solid #ccc; border-radius: 4px; padding: 10px; font-size: 14px; background-color: #fafafa; }
-        #chat-history { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        .message { margin-bottom: 15px; padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; }
-        .user-message { background-color: #007bff; color: white; align-self: flex-end; margin-left: auto; }
-        .ai-message { background-color: #e9e9eb; color: black; align-self: flex-start; margin-right: auto; }
-        #input-area { display: flex; padding: 10px; border-top: 1px solid #ccc; }
-        input { flex-grow: 1; border: 1px solid #ccc; padding: 10px; border-radius: 20px; margin: 0 5px; }
-        button { border: none; background-color: #007bff; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f7f9; 
+            display: flex; 
+            justify-content: center; /* Centramos el contenedor del chat */
+            align-items: center;
+            padding: 20px; 
+            margin: 0;
+            height: 95vh;
+        }
+        
+        /* Ocultamos la columna de contexto */
+        #context-container {
+            display: none; 
+        }
+
+        #chat-container {
+            width: 100%;
+            max-width: 800px; /* Le damos un ancho máximo para que se vea bien en pantallas grandes */
+            border: 1px solid #ccc;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ocupa la altura del body */
+        }
+        #chat-history {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.4;
+            display: flex; /* Usamos flex para alinear */
+            flex-direction: column;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .ai-message {
+            background-color: #e9e9eb;
+            color: black;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        #input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 12px;
+            border-radius: 25px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        button {
+            border: none;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
-    <div id="app-container">
-        <div id="context-container" class="column">
-            <h3>Contexto del Negocio</h3>
-            <textarea id="business-context" readonly>
+    <div id="context-container">
+        <textarea id="business-context">
 **Nombre del Negocio:**
 PASCUALITOFER
 
@@ -68,18 +132,17 @@ Mi nombre es Pascual Fernandez Guaygua. Inspirar y guiar en el aprendizaje, fome
 - **Ubicación:** El puesto de venta y reparación se encuentra en La Paz, Provincia Camacho, Municipio de Escoma.
 - **Teléfono / WhatsApp:** 67164564
 - **Email:** admin@pascualitofer.pro
-            </textarea>
-        </div>
+        </textarea>
+    </div>
 
-        <div id="chat-container" class="column">
-            <div id="chat-history">
-                <div class="message ai-message">Hola, soy el asistente virtual de PASCUALITOFER. ¿En qué puedo ayudarte hoy?</div>
-            </div>
-            <div id="input-area">
-                <input type="password" id="api-key-input" placeholder="Pega tu API Key de Google aquí">
-                <input type="text" id="message-input" placeholder="Escribe tu pregunta...">
-                <button id="send-button">Enviar</button>
-            </div>
+    <div id="chat-container">
+        <div id="chat-history">
+            <div class="message ai-message">Hola, soy el asistente virtual de PASCUALITOFER. ¿En qué puedo ayudarte hoy?</div>
+        </div>
+        <div id="input-area">
+            <input type="password" id="api-key-input" placeholder="Pega tu API Key de Google aquí">
+            <input type="text" id="message-input" placeholder="Escribe tu pregunta...">
+            <button id="send-button">Enviar</button>
         </div>
     </div>
 
@@ -94,8 +157,6 @@ Mi nombre es Pascual Fernandez Guaygua. Inspirar y guiar en el aprendizaje, fome
         async function sendMessage() {
             const apiKey = apiKeyInput.value.trim();
             const userQuestion = messageInput.value.trim();
-            
-            // El contexto ahora se lee directamente del textarea pre-cargado.
             const businessContext = businessContextInput.value.trim();
 
             if (!apiKey || !userQuestion) {
@@ -130,15 +191,19 @@ Mi nombre es Pascual Fernandez Guaygua. Inspirar y guiar en el aprendizaje, fome
                     body: JSON.stringify(requestBody)
                 });
 
-                if (!response.ok) throw new Error(`Error de API: ${response.statusText}`);
-
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error de la API:', errorData);
+                    throw new Error(`Error de API: ${errorData.error.message}`);
+                }
+                
                 const data = await response.json();
                 const aiResponse = data.candidates[0].content.parts[0].text;
                 displayMessage(aiResponse, 'ai');
 
             } catch (error) {
-                console.error("Error:", error);
-                displayMessage("Lo siento, hubo un error al procesar tu solicitud. Verifica que tu API Key sea correcta y que tengas conexión a internet.", 'ai');
+                console.error("Error en la función sendMessage:", error);
+                displayMessage("Lo siento, hubo un error. Revisa que la API Key sea correcta y esté habilitada para la 'Generative Language API' en tu consola de Google Cloud.", 'ai');
             }
         }
 
